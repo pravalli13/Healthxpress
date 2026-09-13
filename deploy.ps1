@@ -1,5 +1,5 @@
 # HealthExpress Automated Deployment Script for Windows PowerShell
-$env:PATH = "C:\flutter\bin;C:\src\flutter\bin;" + $env:PATH
+$env:PATH = "C:\Users\HP\OneDrive\Desktop\flutter_windows_3.29.0-stable\flutter\bin;C:\flutter\bin;C:\src\flutter\bin;" + $env:PATH
 Write-Host "[DEPLOY] Starting HealthExpress Dual Deployment..." -ForegroundColor Cyan
 
 # 1. Build Flutter Web Application
