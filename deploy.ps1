@@ -5,7 +5,7 @@ Write-Host "[DEPLOY] Starting HealthExpress Dual Deployment..." -ForegroundColor
 # 1. Build Flutter Web Application
 Write-Host "[1/3] Building Flutter Web App (Root /)..." -ForegroundColor Yellow
 Set-Location healthexpress
-flutter build web --release --base-href "/Healthxpress/"
+cmd.exe /c "C:\src\flutter\bin\flutter.bat build web --release --base-href `"/Healthxpress/`""
 if ($LASTEXITCODE -ne 0) {
     Write-Host "[ERROR] Flutter build failed!" -ForegroundColor Red
     Set-Location ..
