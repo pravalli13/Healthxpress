@@ -1,10 +1,11 @@
 # HealthExpress Automated Deployment Script for Windows PowerShell
+$env:PATH = "C:\flutter\bin;C:\src\flutter\bin;" + $env:PATH
 Write-Host "[DEPLOY] Starting HealthExpress Dual Deployment..." -ForegroundColor Cyan
 
 # 1. Build Flutter Web Application
 Write-Host "[1/3] Building Flutter Web App (Root /)..." -ForegroundColor Yellow
 Set-Location healthexpress
-flutter build web --release --base-href "/healthyxpress_medha/"
+flutter build web --release --base-href "/Healthxpress/"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "[ERROR] Flutter build failed!" -ForegroundColor Red
     Set-Location ..
@@ -47,5 +48,6 @@ git worktree remove temp_gh_pages --force
 git push origin gh-pages --force
 
 Write-Host "[DONE] Deployment Complete! Live at:" -ForegroundColor Green
-Write-Host "App:   https://pavanstarkin-tech.github.io/healthyxpress_medha/" -ForegroundColor Cyan
-Write-Host "Admin: https://pavanstarkin-tech.github.io/healthyxpress_medha/admin/" -ForegroundColor Cyan
+Write-Host "App:   https://pravalli13.github.io/Healthxpress/" -ForegroundColor Cyan
+Write-Host "Admin: https://pravalli13.github.io/Healthxpress/admin/" -ForegroundColor Cyan
+

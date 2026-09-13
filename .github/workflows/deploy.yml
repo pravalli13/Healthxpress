@@ -1,0 +1,56 @@
+name: Deploy to GitHub Pages (App & Admin Panel)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Build Flutter Web App
+        run: |
+          cd healthexpress
+          flutter pub get
+          flutter build web --release --base-href "/Healthxpress/"
+          cp build/web/index.html build/web/404.html
+          touch build/web/.nojekyll
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build React Admin Panel
+        run: |
+          cd admin_panel
+          npm ci || npm install
+          npm run build
+
+      - name: Assemble Combined Site Structure
+        run: |
+          mkdir -p dist
+          cp -r healthexpress/build/web/* dist/
+          cp healthexpress/build/web/.nojekyll dist/
+          mkdir -p dist/admin
+          cp -r admin_panel/dist/* dist/admin/
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
