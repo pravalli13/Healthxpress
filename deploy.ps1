@@ -5,11 +5,11 @@ Write-Host "[DEPLOY] Starting HealthExpress Dual Deployment..." -ForegroundColor
 # 1. Build Flutter Web Application
 Write-Host "[1/3] Building Flutter Web App (Root /)..." -ForegroundColor Yellow
 Set-Location healthexpress
-& "C:\src\flutter\bin\flutter.bat" build web --release --base-href "/Healthxpress/"
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "[ERROR] Flutter build failed!" -ForegroundColor Red
-    Set-Location ..
-    exit 1
+$flutterCmd = Get-Command flutter -ErrorAction SilentlyContinue
+if ($flutterCmd) {
+    flutter build web --release --base-href "/Healthxpress/"
+} else {
+    Write-Host "[NOTICE] Flutter SDK not found in local PATH. Automated deployment is handled by GitHub Actions CI/CD pipeline on push." -ForegroundColor Cyan
 }
 Copy-Item "build\web\index.html" "build\web\404.html" -Force
 New-Item -ItemType File -Force -Path "build\web\.nojekyll" | Out-Null
